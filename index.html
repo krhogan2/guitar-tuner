@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#090807" />
+    <meta name="description" content="A live, in-browser guitar tuner. Standard and alternate tunings, reference tones, and YIN pitch detection — no accounts, no backend." />
+    <title>tuner · guitar</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/app.css" />
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="app">
+      <header class="top">
+        <div class="brand">
+          <span class="wordmark">tuner</span>
+          <span class="a4">A<sub>4</sub> 440</span>
+        </div>
+        <p class="lede">Live pitch · six strings · no account</p>
+      </header>
+
+      <nav class="tunings" id="tunings" aria-label="Tuning presets"></nav>
+
+      <section class="stage" aria-live="polite">
+        <div class="gauge" aria-hidden="true">
+          <svg class="dial" viewBox="0 0 320 188" role="presentation">
+            <defs>
+              <linearGradient id="arc-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#6ea8ff" />
+                <stop offset="46%" stop-color="#9ef0c8" />
+                <stop offset="54%" stop-color="#9ef0c8" />
+                <stop offset="100%" stop-color="#ff8a5b" />
+              </linearGradient>
+              <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur stdDeviation="3" result="b" />
+                <feMerge>
+                  <feMergeNode in="b" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            <path class="arc-well" d="M28 160 A132 132 0 0 1 292 160" />
+            <path class="arc-color" d="M28 160 A132 132 0 0 1 292 160" />
+            <path class="arc-in" d="M139.4 29.6 A132 132 0 0 1 180.6 29.6" />
+            <g class="ticks">
+              <line class="tick-major" x1="24.0" y1="160.0" x2="42.0" y2="160.0" />
+              <line x1="30.7" y1="118.0" x2="40.2" y2="121.1" />
+              <line x1="50.0" y1="80.1" x2="58.1" y2="85.9" />
+              <line x1="80.1" y1="50.0" x2="85.9" y2="58.1" />
+              <line x1="118.0" y1="30.7" x2="121.1" y2="40.2" />
+              <line class="tick-major" x1="160.0" y1="24.0" x2="160.0" y2="42.0" />
+              <line x1="202.0" y1="30.7" x2="198.9" y2="40.2" />
+              <line x1="239.9" y1="50.0" x2="234.1" y2="58.1" />
+              <line x1="270.0" y1="80.1" x2="261.9" y2="85.9" />
+              <line x1="289.3" y1="118.0" x2="279.8" y2="121.1" />
+              <line class="tick-major" x1="296.0" y1="160.0" x2="278.0" y2="160.0" />
+            </g>
+            <text class="tick-label" x="22" y="178">−50</text>
+            <text class="tick-label" x="160" y="22" text-anchor="middle">0</text>
+            <text class="tick-label" x="298" y="178" text-anchor="end">+50</text>
+            <g id="needle" class="needle">
+              <line x1="160" y1="160" x2="160" y2="46" />
+              <circle cx="160" cy="160" r="7" />
+              <circle class="pivot-core" cx="160" cy="160" r="3.2" />
+            </g>
+          </svg>
+
+          <div class="readout">
+            <div class="note-row">
+              <span id="note-name" class="note-name is-idle">ready</span>
+              <span id="note-octave" class="note-octave"></span>
+            </div>
+            <div id="cents" class="cents">— ¢</div>
+            <div id="hz" class="hz">0.0 Hz</div>
+          </div>
+        </div>
+
+        <div class="level" aria-hidden="true">
+          <span class="level-fill" id="level-fill"></span>
+        </div>
+        <p id="status" class="status">Ready</p>
+      </section>
+
+      <section class="controls">
+        <div class="string-head">
+          <button type="button" id="auto" class="auto is-active" aria-pressed="true">Auto</button>
+          <span>tap a string to hear it</span>
+        </div>
+        <div id="strings" class="strings" role="group" aria-label="Guitar strings"></div>
+      </section>
+
+      <footer class="dock">
+        <button type="button" id="start" class="start">Start tuner</button>
+        <p id="hint" class="hint"></p>
+      </footer>
+    </div>
+    <script type="module" src="./js/app.js"></script>
+  </body>
+</html>
