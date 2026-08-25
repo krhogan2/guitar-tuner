@@ -232,14 +232,14 @@ body {
 
 .readout {
   text-align: center;
-  margin-top: -18px;
+  padding: 4px 0 2px;
 }
 
 .note-row {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  min-height: 4.6rem;
+  min-height: 4.4rem;
 }
 
 .note-name {
@@ -249,6 +249,16 @@ body {
   font-weight: 560;
   line-height: 0.9;
   letter-spacing: -0.04em;
+}
+
+.note-name.is-idle {
+  align-self: center;
+  color: var(--mute);
+  font-family: var(--font-ui);
+  font-size: 1.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: lowercase;
 }
 
 .note-octave {

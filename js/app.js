@@ -95,6 +95,14 @@ function onStringTap(s) {
   playReference(s.hz);
 }
 
+function setIdleReadout() {
+  els.noteName.textContent = state.running ? "listening" : "ready";
+  els.noteName.classList.add("is-idle");
+  els.noteOctave.textContent = "";
+  els.hz.textContent = "0.0 Hz";
+  els.centsLabel.textContent = "— ¢";
+}
+
 function updateAutoButton() {
   els.auto.classList.toggle("is-active", !state.selectedString);
   els.auto.setAttribute("aria-pressed", String(!state.selectedString));
@@ -129,6 +137,7 @@ function applyReadout({ note, cents, hz, heard, closest }) {
   }
 
   els.app.classList.add("is-hearing");
+  els.noteName.classList.remove("is-idle");
   els.noteName.textContent = note.name;
   els.noteOctave.textContent = note.octave;
   els.hz.textContent = `${hz.toFixed(1)} Hz`;
@@ -210,6 +219,7 @@ function playReference(freq) {
   partial.stop(now + dur);
 
   const note = frequencyToNote(freq, A4_HZ, state.tuning.preferFlats);
+  els.noteName.classList.remove("is-idle");
   els.noteName.textContent = note.name;
   els.noteOctave.textContent = note.octave;
   els.hz.textContent = `${freq.toFixed(1)} Hz`;
@@ -310,6 +320,7 @@ function stopMic() {
   els.app.classList.remove("is-live", "is-hearing", "is-intune", "is-flat", "is-sharp");
   els.gauge.classList.remove("is-intune");
   els.levelFill.style.transform = "scaleX(0)";
+  setIdleReadout();
   setStatus("Stopped", "");
   setHint("Press Start tuner to use the microphone, or tap a string for a reference tone.");
 }
@@ -428,6 +439,7 @@ function init() {
     state.selectedString = null;
     renderStrings();
     updateAutoButton();
+    if (!state.running) setIdleReadout();
   });
   window.addEventListener("keydown", onKeydown);
   window.addEventListener("pagehide", () => {
